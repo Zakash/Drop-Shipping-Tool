@@ -11,6 +11,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {APP_ROUTES} from './app.routes';
 import { RouterModule } from '@angular/router';
 import { AppnavComponent } from './appnav/appnav.component';
+import { TableEditableComponent } from './table-editable/table-editable.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,12 +23,14 @@ import { AppnavComponent } from './appnav/appnav.component';
     ShippingComponent,
     AdminComponent,
     PageNotFoundComponent,
-    AppnavComponent
+    AppnavComponent,
+    TableEditableComponent
   ],
   imports: [
     BrowserModule,
     MDBBootstrapModule.forRoot(),
-    RouterModule.forRoot(APP_ROUTES)
+    RouterModule.forRoot(APP_ROUTES),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
