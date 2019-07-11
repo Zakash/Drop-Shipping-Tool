@@ -12,7 +12,7 @@ const Order = require('./models/order');
 mongoose.Promise = global.Promise;
 mongoose.connect(
   config.mongoURL,
-  { useNewUrlParser: true }
+  { user: config.mongoUser, pass: config.mongoPass, useNewUrlParser: true }
 );
 
 app.use(bodyParser.json());
@@ -29,15 +29,17 @@ app.get('/api/orders', (req,res) => {
 );
 
 app.post('/new_push', (req,res) =>{
-  var order = json(req.body)
-  var newOrder = new Order({
-    id: order['order_id'],
-    status: order['order_status'],
-    priceReceived: order['order_price'],
-    paymentMethod: order['order_payment_type'],
-    date: order['date']
-  });
-  newOrder.save();
+  let order = JSON.stringify(req.body)
+  if (order['type']=='neworder') {
+    let newOrder = new Order({
+      id: order['order_id'],
+      status: order['order_status'],
+      priceReceived: order['order_price'],
+      paymentMethod: order['order_payment_type'],
+      date: order['date']
+    });
+    newOrder.save();
+  }
   res.send("ok");
 });
 
