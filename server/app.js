@@ -28,9 +28,9 @@ app.get('/api/orders', (req,res) => {
   }
 );
 
-app.post('/api/new_push', (req,res) =>{
-  console.log(req);
-  return;
+app.post('/new_push', (req,res) =>{
+  console.log(req.body);
+  res.status(200).json(req.body);
 });
 
 app.put('/api/orders/:id', (req,res) => {
