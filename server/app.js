@@ -29,8 +29,16 @@ app.get('/api/orders', (req,res) => {
 );
 
 app.post('/new_push', (req,res) =>{
-  console.log(req.body);
-  res.status(200).json(req.body);
+  var order = json(req.body)
+  var newOrder = new Order({
+    id: order['order_id'],
+    status: order['order_status'],
+    priceReceived: order['order_price'],
+    paymentMethod: order['order_payment_type'],
+    date: order['date']
+  });
+  newOrder.save();
+  res.send("ok");
 });
 
 app.put('/api/orders/:id', (req,res) => {
