@@ -28,6 +28,11 @@ app.get('/api/orders', (req,res) => {
   }
 );
 
+app.post('/api/new_push', (req,res) =>{
+  console.log(req);
+  return;
+});
+
 app.put('/api/orders/:id', (req,res) => {
   Order.findOneAndUpdate( { id: req.params.id }, { $set: req.body }, {new: true}, (err, doc) => {
     if (err) {
@@ -38,10 +43,12 @@ app.put('/api/orders/:id', (req,res) => {
   });
 });
 
+
 app.get("*", (req, res) => {
   cashcow_controller.info();
   res.sendFile(path.join(__dirname, '../dist/index.html'))
 });
+
 
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
