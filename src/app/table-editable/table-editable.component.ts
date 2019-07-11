@@ -1,5 +1,6 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {MdbTableDirective} from 'angular-bootstrap-md';
+import { MdbTableDirective } from 'angular-bootstrap-md';
+import { OrdersService } from '../services/orders.service';
 
 @Component({
   selector: 'app-table-editable',
@@ -13,7 +14,7 @@ export class TableEditableComponent implements OnInit {
   searchText: string = '';
   previous: string;
 
-  personList: any = [];
+  orders: any = [];
 
   awaitingPersonList: Array<any> = [
     { id: 6, name: 'George Vega', age: 28, companyName: 'Classical', country: 'Russia', city: 'Moscow' },
@@ -24,37 +25,42 @@ export class TableEditableComponent implements OnInit {
   ];
 
   headElements = ['ID', 'Name', 'Age', 'Company', 'Country', 'City'];
-  constructor() { }
+  constructor(private ordersServices: OrdersService) { }
 
   @HostListener('input') oninput() {
     this.searchItems();
   }
 
   ngOnInit() {
-    this.personList.push({ id: 1, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' });
-    this.personList.push({ id: 2, name: 'Guerra Cortez', age: 45, companyName: 'Insectus', country: 'USA', city: 'San Francisco' });
-    this.personList.push({ id: 3, name: 'Guadalupe House', age: 26, companyName: 'Isotronic', country: 'Germany', city: 'Frankfurt' });
-    this.personList.push({ id: 4, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' });
-    this.personList.push({ id: 5, name: 'Elisa Gallagher', age: 31, companyName: 'Portica', country: 'United Kingdom', city: 'London' });
-    this.mdbTable.setDataSource(this.personList);
-    this.personList = this.mdbTable.getDataSource();
-    this.previous = this.mdbTable.getDataSource();
+    // this.personList.push({ id: 1, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' });
+    // this.personList.push({ id: 2, name: 'Guerra Cortez', age: 45, companyName: 'Insectus', country: 'USA', city: 'San Francisco' });
+    // this.personList.push({ id: 3, name: 'Guadalupe House', age: 26, companyName: 'Isotronic', country: 'Germany', city: 'Frankfurt' });
+    // this.personList.push({ id: 4, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' });
+    // this.personList.push({ id: 5, name: 'Elisa Gallagher', age: 31, companyName: 'Portica', country: 'United Kingdom', city: 'London' });
+    this.ordersServices.fetchOrders();
+    this.ordersServices.getOrders().subscribe( data => {
+      this.orders = [...data]
+      this.mdbTable.setDataSource(this.orders);
+      this.orders = this.mdbTable.getDataSource();
+      this.previous = this.mdbTable.getDataSource();
+    });
+
   }
 
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;
-    this.personList[id][property] = editField;
+    this.ordersServices.editOrder(id, property, editField);
   }
 
   remove(id: any) {
-    this.awaitingPersonList.push(this.personList[id]);
-    this.personList.splice(id, 1);
+    this.awaitingPersonList.push(this.orders[id]);
+    this.orders.splice(id, 1);
   }
 
   add() {
     if (this.awaitingPersonList.length > 0) {
       const person = this.awaitingPersonList[0];
-      this.personList.push(person);
+      this.orders.push(person);
       this.awaitingPersonList.splice(0, 1);
     }
   }
@@ -68,11 +74,11 @@ export class TableEditableComponent implements OnInit {
 
     if (!this.searchText) {
       this.mdbTable.setDataSource(this.previous);
-      this.personList = this.mdbTable.getDataSource();
+      this.orders = this.mdbTable.getDataSource();
     }
 
     if (this.searchText) {
-      this.personList = this.mdbTable.searchLocalDataBy(this.searchText);
+      this.orders = this.mdbTable.searchLocalDataBy(this.searchText);
       this.mdbTable.setDataSource(prev);
     }
   }

@@ -20,45 +20,50 @@
 
       <table mdbTable class="table table-bordered table-responsive-md table-striped text-center">
         <tr>
-          <th class="text-center">Person Name</th>
-          <th class="text-center">Age</th>
-          <th class="text-center">Company Name</th>
-          <th class="text-center">Country</th>
-          <th class="text-center">City</th>
-          <th class="text-center">Sort</th>
-          <th class="text-center">Remove</th>
+          <th class="text-center">Id</th>
+          <th class="text-center">Order Number</th>
+          <th class="text-center">Payment Number</th>
+          <th class="text-center">Tracking</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Price</th>
+          <th class="text-center">Profit</th>
+          <th class="text-center">Date</th>
+          <th class="text-center"></th>
+          <th class="text-center"></th>
         </tr>
-        <tr *ngFor="let person of personList; let id = index">
+        <tr *ngFor="let order of orders">
           <td>
-            <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.name}}</span>
+            <span (keyup)="changeValue(order.id, 'id', $event)" (blur)="updateList(order.id, 'id', $event)" contenteditable="true">{{order.id}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.age}}</span>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'orderNumber', $event)" (blur)="updateList(order.id, 'orderNumber', $event)">{{order.orderNumber}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.companyName}}</span>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'paymentNumber', $event)" (blur)="updateList(order.id, 'paymentNumber', $event)">{{order.paymentNumber}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'country', $event)" (blur)="updateList(id, 'country', $event)">{{person.country}}</span>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'tracking', $event)" (blur)="updateList(order.id, 'tracking', $event)">{{order.tracking}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.city}}</span>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'status', $event)" (blur)="updateList(order.id, 'status', $event)">{{order.status}}</span>
           </td>
           <td>
-            <span class="table-up">
-              <a class="indigo-text">
-                <mdb-icon fas icon="long-arrow-alt-up"></mdb-icon>
-              </a>
-            </span>
-            <span class="table-down">
-              <a class="indigo-text">
-                <mdb-icon fas icon="long-arrow-alt-down"></mdb-icon>
-              </a>
-            </span>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'pricePaid', $event)" (blur)="updateList(order.id, 'pricePaid', $event)">{{order.pricePaid}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'profit', $event)" (blur)="updateList(order.id, 'profit', $event)">{{order.profit}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(order.id, 'date', $event)" (blur)="updateList(order.id, 'date', $event)">{{order.date}}</span>
+          </td>
+          <td>
+            <a routerLink="/orders/{{order.id}}" >
+              <i class="fas fa-eye"></i>
+            </a>
           </td>
           <td>
             <span class="table-remove">
-              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(id)">Remove</button>
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(order.id)">Remove</button>
             </span>
           </td>
         </tr>
